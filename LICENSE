@@ -32,7 +32,7 @@ of these is below.
 THIRD PARTY SOFTWARE AND DATA
 
 OpenStreetMap:
---------------
+**************
 This data is available under the Open Database License.
 www.openstreetmap.org
 www.opendatacommons.org
@@ -40,7 +40,7 @@ http://opendatacommons.org/licenses/odbl/1.0/
 © OpenStreetMap contributors
 
 OpenFlights Route Database:
----------------------------
+***************************
 This data is available under the Open Database License. Any rights in individual contents of the database are 
 licensed under the Database Contents License.
 http://openflights.org/data.html
@@ -48,7 +48,7 @@ http://opendatacommons.org/licenses/odbl/1.0/
 http://opendatacommons.org/licenses/dbcl/1.0/
 
 GMapsFX:
---------
+********
 GMapsFX is distributed with the Apache License.
 
 Apache License
