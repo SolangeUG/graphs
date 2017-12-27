@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.training.java</groupId>
+    <artifactId>graphs</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>Graphs</name>
+    <description>
+        Course 3 of the Coursera
+        "Object Oriented Java Programming: Data Structures and Beyond" specialization.
+
+        How does Google Maps plan the best route for getting around town given current
+        traffic conditions? How does an internet router forward packets of network
+        traffic to minimize delay? How does an aid group allocate resources to its
+        affiliated local partners?
+
+        To solve such problems, we first represent the key pieces of data in a complex
+        data structure. This course teaches data structures, like graphs, that are
+        fundamental for working with structured real world data. You will develop,
+        implement, and analyze algorithms for working with this data to solve real world
+        problems.
+
+        In addition, as the programs you develop in this course become more complex,
+        we’ll examine what makes for good code and class hierarchy design so that you can
+        not only write correct code, but also share it with other people and maintain it
+        in the future.
+
+        The backbone project in this course will be a route planning application.
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <junit.jupiter.version>5.0.2</junit.jupiter.version>
+        <junit.platform.version>1.0.2</junit.platform.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- UCSD additional project library -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
+        <!-- To run tests on IDE such as Eclipse, Intellij -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>${junit.platform.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>
