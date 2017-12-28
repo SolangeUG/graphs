@@ -1,19 +1,13 @@
 package basicgraph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
 import util.GraphLoader;
 
-/** An abstract class that implements a directed graph. 
+import java.util.*;
+
+/**
+ * An abstract class that implements a directed graph.
  * The graph may have self-loops, parallel edges. 
- * Vertices are labeled by integers 0 .. n-1
- * and may also have String labels.
+ * Vertices are labeled by integers 0 .. n-1 and may also have String labels.
  * The edges of the graph are not labeled.
  * Representation of edges is left abstract.
  * 
@@ -42,7 +36,7 @@ public abstract class Graph {
 	 * Report size of vertex set
 	 * @return The number of vertices in the graph.
 	 */
-	public int getNumVertices() {
+	int getNumVertices() {
 		return numVertices;
 	}
 	
@@ -51,7 +45,7 @@ public abstract class Graph {
 	 * Report size of edge set
 	 * @return The number of edges in the graph.
 	 */	
-	public int getNumEdges() {
+	int getNumEdges() {
 		return numEdges;
 	}
 	
@@ -99,7 +93,7 @@ public abstract class Graph {
 	 * Get all (out-)neighbors of a given vertex.
 	 * @param v Index of vertex in question.
 	 * @return List of indices of all vertices that are adjacent to v
-	 * 	via outgoing edges from v. 
+	 * 			via outgoing edges from v.
 	 */
 	public abstract List<Integer> getNeighbors(int v); 
 	
@@ -107,7 +101,7 @@ public abstract class Graph {
 	 * Get all in-neighbors of a given vertex.
 	 * @param v Index of vertex in question.
 	 * @return List of indices of all vertices that are adjacent to v
-	 * 	via incoming edges to v. 
+	 * 			via incoming edges to v.
 	 */
 	public abstract List<Integer> getInNeighbors(int v);
 	
@@ -121,20 +115,28 @@ public abstract class Graph {
 	 * @return The degree sequence of this graph.
 	 */
 	public List<Integer> degreeSequence() {
-		// XXX: Implement in part 1 of week 2
-		return null;
+		// DONE: Implement in part 1 of week 2
+		List<Integer> degrees = new ArrayList<>();
+		for (int i = 0; i < numVertices; i++) {
+			// degree is the sum of out-neighbors and in-neighbors
+			int degree = getNeighbors(i).size() + getInNeighbors(i).size();
+			degrees.add(degree);
+		}
+		degrees.sort(Comparator.reverseOrder());
+		return degrees;
 	}
 	
 	/**
 	 * Get all the vertices that are 2 away from the vertex in question.
 	 * @param v The starting vertex
 	 * @return A list of the vertices that can be reached in exactly two hops (by 
-	 * following two edges) from vertex v.
-	 * XXX: Implement in part 2 of week 2 for each subclass of Graph
+	 * 			following two edges) from vertex v.
+	 * 			TODO: Implement in part 2 of week 2 for each subclass of Graph
 	 */
 	public abstract List<Integer> getDistance2(int v); 
 
-	/** Return a String representation of the graph
+	/**
+	 * Return a String representation of the graph
 	 * @return A string representation of the graph
 	 */
 	public String toString() {
@@ -159,48 +161,45 @@ public abstract class Graph {
 	 * (Optional: only if using labeled vertices.)
 	 */
 	public void initializeLabels() {
-		vertexLabels = new HashMap<Integer,String>();
-	}	
+		vertexLabels = new HashMap<>();
+	}
+
 	/**
 	 * Test whether some vertex in the graph is labeled 
 	 * with a given index.
-	 * @param The index being checked
+	 * @param v The index being checked
 	 * @return True if there's a vertex in the graph with this index; false otherwise.
 	 */
-	public boolean hasVertex(int v)
-	{
+	public boolean hasVertex(int v) {
 		return v < getNumVertices();
 	}
 	
 	/**
 	 * Test whether some vertex in the graph is labeled 
 	 * with a given String label
-	 * @param The String label being checked
+	 * @param s The String label being checked
 	 * @return True if there's a vertex in the graph with this label; false otherwise.
 	 */
-	public boolean hasVertex(String s)
-	{
+	public boolean hasVertex(String s) {
 		return vertexLabels.containsValue(s);
 	}
 	
 	/**
 	 * Add label to an unlabeled vertex in the graph.
-	 * @param The index of the vertex to be labeled.
-	 * @param The label to be assigned to this vertex.
+	 * @param v The index of the vertex to be labeled.
+	 * @param s The label to be assigned to this vertex.
 	 */
 	public void addLabel(int v, String s) {
-		if (v < getNumVertices() && !vertexLabels.containsKey(v)) 
-		{
+		if (v < getNumVertices() && !vertexLabels.containsKey(v)) {
 			vertexLabels.put(v, s);
-		}
-		else {
+		} else {
 			System.out.println("ERROR: tried to label a vertex that is out of range or already labeled");
 		}
 	}
 	
 	/**
 	 * Report label of vertex with given index
-	 * @param The integer index of the vertex
+	 * @param v The integer index of the vertex
 	 * @return The String label of this vertex 
 	 */
 	public String getLabel(int v) {
@@ -213,7 +212,7 @@ public abstract class Graph {
 	/**
 	 * Report index of vertex with given label.
 	 * (Assume distinct labels for vertices.)
-	 * @param The String label of the vertex
+	 * @param s The String label of the vertex
 	 * @return The integer index of this vertex 
 	 */
 	public int getIndex(String s) {
@@ -230,7 +229,6 @@ public abstract class Graph {
 	/** Main method provided with some basic tests.  */
 	public static void main (String[] args) {
 		GraphLoader.createIntersectionsFile("data/maps/ucsd.map", "data/intersections/ucsd.intersections");
-		
 
 		// For testing of Part 1 functionality
 		// Add your tests here to make sure your degreeSequence method is returning
@@ -263,7 +261,5 @@ public abstract class Graph {
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
 
-
-		
 	}
 }
