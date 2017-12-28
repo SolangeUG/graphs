@@ -1,19 +1,20 @@
 package basicgraph;
 
-import java.io.BufferedReader;
+import util.GraphLoader;
+
 import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import util.GraphLoader;
 
 /**
- * @author UCSD MOOC Development Team
+ * A grader class for degree sequence implementations
  * Grader for Module 2, Part 1.
+ * @author UCSD MOOC Development Team
+ *
  */
 public class DegreeGrader {
+
     private String feedback;  // Feedback from the grader
 
     private int correct;      // Tests correctly passed
@@ -26,16 +27,16 @@ public class DegreeGrader {
      * @param lst  The list to process
      * @return  The list items formatted as a printable string
      */
-    public static String printList(List<Integer> lst) {
-        String res = "";
+    private static String printList(List<Integer> lst) {
+        StringBuilder res = new StringBuilder();
         for (int i : lst) {
-            res += i + " ";
+            res.append(i).append(" ");
         }
         // Some lists might be empty, so we can't run substring
         if (res.length() > 0)
             return res.substring(0, res.length() - 1); // last character is ' '
         else
-            return res;
+            return res.toString();
     }
 
     /**
@@ -44,7 +45,7 @@ public class DegreeGrader {
      * @param feedback  The feedback message
      * @return  A string where the feedback are score a formatted nicely
      */
-    public static String printOutput(double score, String feedback) {
+    private static String printOutput(double score, String feedback) {
         return "Score: " + score + "\n Feedback: " + feedback;
     }
 
@@ -54,7 +55,7 @@ public class DegreeGrader {
      * @param test The test description
      * @return A String with the test number and description neatly formatted.
      */
-    public static String appendFeedback(int num, String test) {
+    private static String appendFeedback(int num, String test) {
         return "\n** Test #" + num + ": " + test + "...";
     }
 
@@ -70,10 +71,8 @@ public class DegreeGrader {
     /** Run a test case on an adjacency list and adjacency matrix.
      * @param i The graph number
      * @param desc A description of the graph
-     * @param start The node to start from
-     * @param corr A list containing the correct answer
      */
-    public void runTest(int i, String desc) {
+    private void runTest(int i, String desc) {
         GraphAdjList lst = new GraphAdjList();
         GraphAdjMatrix mat = new GraphAdjMatrix();
 
@@ -99,11 +98,9 @@ public class DegreeGrader {
      * @param i The graph number
      * @param file The file to read the correct answer from
      * @param desc A description of the graph
-     * @param start The node to start from
-     * @param corr A list containing the correct answer
      * @param type The type of graph to use
      */
-    public void runSpecialTest(int i, String file, String desc, String type) {
+    private void runSpecialTest(int i, String file, String desc, String type) {
         GraphAdjList lst = new GraphAdjList();
         GraphAdjMatrix mat = new GraphAdjMatrix();
 
@@ -134,7 +131,7 @@ public class DegreeGrader {
      * @param result The list with the user's result
      * @param corr The list with the correct answer
      */
-    public void judge(List<Integer> result, List<Integer> corr) {
+    private void judge(List<Integer> result, List<Integer> corr) {
         // Correct answer if both lists contain the same elements
     	if(result==null) {
     		feedback += "FAILED. Result is NULL";
@@ -151,8 +148,8 @@ public class DegreeGrader {
      * @param file The file to read from
      * @return A list containing the correct answer
      */
-    public List<Integer> readCorrect(String file) {
-        List<Integer> ret = new ArrayList<Integer>();
+    private List<Integer> readCorrect(String file) {
+        List<Integer> ret = new ArrayList<>();
         try {
             Scanner s = new Scanner(new File(file));
             while(s.hasNextInt()) { 
@@ -165,7 +162,7 @@ public class DegreeGrader {
     }
 
     /** Run the grader. */
-    public void run() {
+    private void run() {
         feedback = "";
 
         correct = 0;

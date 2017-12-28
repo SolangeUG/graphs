@@ -1,15 +1,17 @@
 package basicgraph;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import util.GraphLoader;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @author UCSD MOOC Development Team
+ * A grader class for graph implementations as adjacency list or adjacency matrix
  * Grader for Module 2, Part 2
+ * @author UCSD MOOC Development Team
+ *
  */
 public class GraphGrader {
     private String feedback;
@@ -23,10 +25,10 @@ public class GraphGrader {
      * @param lst  The list to process
      * @return  The list items formatted as a printable string
      */
-    public static String printList(List<Integer> lst) {
-        String res = "";
+    private static String printList(List<Integer> lst) {
+        StringBuilder res = new StringBuilder();
         for (int i : lst) {
-            res += i + "-";
+            res.append(i).append("-");
         }
         // Last character will be a '-'
         return res.substring(0, res.length() - 1);
@@ -38,7 +40,7 @@ public class GraphGrader {
      * @param feedback  The feedback message
      * @return  A string where the feedback are score a formatted nicely
      */
-    public static String printOutput(double score, String feedback) {
+    private static String printOutput(double score, String feedback) {
         return "Score: " + score + "\nFeedback: " + feedback;
     }
 
@@ -48,7 +50,7 @@ public class GraphGrader {
      * @param test The test description
      * @return A String with the test number and description neatly formatted.
      */
-    public static String appendFeedback(int num, String test) {
+    private static String appendFeedback(int num, String test) {
         return "\n** Test #" + num + ": " + test + "...";
     }
 
@@ -67,7 +69,7 @@ public class GraphGrader {
      * @param start The node to start from
      * @param corr A list containing the correct answer
      */
-    public void runTest(int i, String desc, int start, List<Integer> corr) {
+    private void runTest(int i, String desc, int start, List<Integer> corr) {
         GraphAdjList lst = new GraphAdjList();
         GraphAdjMatrix mat = new GraphAdjMatrix();
         
@@ -93,7 +95,7 @@ public class GraphGrader {
      * @param corr A list containing the correct answer
      * @param type The type of graph to use
      */
-    public void runSpecialTest(int i, String file, String desc, int start, List<Integer> corr, String type) {
+    private void runSpecialTest(int i, String file, String desc, int start, List<Integer> corr, String type) {
         GraphAdjList lst = new GraphAdjList();
         GraphAdjMatrix mat = new GraphAdjMatrix();
 
@@ -123,7 +125,7 @@ public class GraphGrader {
      * @param result The list with the user's result
      * @param corr The list with the correct answer
      */
-    public void judge(List<Integer> result, List<Integer> corr) {
+    private void judge(List<Integer> result, List<Integer> corr) {
         // Correct answer if both lists contain the same elements
     	if (result == null) {
     		feedback += "FAILED. Result returned was NULL. ";
@@ -146,8 +148,8 @@ public class GraphGrader {
      * @param file The file to read from
      * @return A list containing the correct answer
      */
-    public ArrayList<Integer> readCorrect(String file) {
-        ArrayList<Integer> ret = new ArrayList<Integer>();
+    private ArrayList<Integer> readCorrect(String file) {
+        ArrayList<Integer> ret = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader("data/graders/mod1/" + file));
             String next;
@@ -162,40 +164,40 @@ public class GraphGrader {
     }
 
     /** Run the grader */
-    public void run() {
+    private void run() {
         feedback = "";
         correct = 0;
         ArrayList<Integer> correctAns;
 
         try {
-            correctAns = new ArrayList<Integer>();
+            correctAns = new ArrayList<>();
             correctAns.add(7);
             runTest(1, "Straight line (0->1->2->3->...)", 5, correctAns);
 
-            correctAns = new ArrayList<Integer>();
+            correctAns = new ArrayList<>();
             correctAns.add(4);
             correctAns.add(6);
             correctAns.add(6);
             correctAns.add(8);
             runTest(2, "Undirected straight line (0<->1<->2<->3<->...)", 6, correctAns);
 
-            correctAns = new ArrayList<Integer>();
+            correctAns = new ArrayList<>();
             for (int i = 0; i < 9; i++) {
                 correctAns.add(0);
             }
             runTest(3, "Star graph - 0 is connected in both directions to all nodes except itself (starting at 0)", 0, correctAns);
 
-            correctAns = new ArrayList<Integer>();
+            correctAns = new ArrayList<>();
             for (int i = 1; i < 10; i++)
                 correctAns.add(i);
             runTest(4, "Star graph (starting at 5)", 5, correctAns);
             
-            correctAns = new ArrayList<Integer>();
+            correctAns = new ArrayList<>();
             for (int i = 6; i < 11; i++)
                 correctAns.add(i);
             runTest(5, "Star graph - Each 'arm' consists of two undirected edges leading away from 0 (starting at 0)", 0, correctAns);
 
-            correctAns = new ArrayList<Integer>();
+            correctAns = new ArrayList<>();
             runTest(6, "Same graph as before (starting at 5)", 5, correctAns);
 
             correctAns = readCorrect("ucsd.map.twoaway");
