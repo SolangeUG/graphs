@@ -1,10 +1,7 @@
 package basicgraph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /** A class that implements a directed graph. 
  * The graph may have self-loops, parallel edges. 
@@ -66,7 +63,7 @@ public class GraphAdjMatrix extends Graph {
 	 * @return List<Integer> a list of indices of vertices.  
 	 */	
 	public List<Integer> getNeighbors(int v) {
-		List<Integer> neighbors = new ArrayList<Integer>();
+		List<Integer> neighbors = new ArrayList<>();
 		for (int i = 0; i < getNumVertices(); i ++) {
 			for (int j=0; j< adjMatrix[v][i]; j ++) {
 				neighbors.add(i);
@@ -86,7 +83,7 @@ public class GraphAdjMatrix extends Graph {
 	 * @return List<Integer> a list of indices of vertices.  
 	 */
 	public List<Integer> getInNeighbors(int v) {
-		List<Integer> inNeighbors = new ArrayList<Integer>();
+		List<Integer> inNeighbors = new ArrayList<>();
 		for (int i = 0; i < getNumVertices(); i ++) {
 			for (int j=0; j< adjMatrix[i][v]; j++) {
 				inNeighbors.add(i);
@@ -104,8 +101,15 @@ public class GraphAdjMatrix extends Graph {
 	 * @return List<Integer> a list of indices of vertices.  
 	 */	
 	public List<Integer> getDistance2(int v) {
-		// XXX Implement this method in week 2
-		return null;
+		// DONE: Implement this method in week 2
+		List<Integer> twoHop = new ArrayList<>();
+		int[][] twoHops = getTwoHopsMatrix();
+		for (int i = 0; i < getNumVertices(); i ++) {
+			for (int j = 0; j < twoHops[v][i]; j ++) {
+				twoHop.add(i);
+			}
+		}
+		return twoHop;
 	}
 	
 	/**
@@ -114,15 +118,35 @@ public class GraphAdjMatrix extends Graph {
 	 */
 	public String adjacencyString() {
 		int dim = getNumVertices();
-		String s = "Adjacency matrix";
-		s += " (size " + dim + "x" + dim + " = " + dim* dim + " integers):";
+		StringBuilder s = new StringBuilder("Adjacency matrix");
+		s.append(" (size ").append(dim).append("x").append(dim).append(" = ").append(dim * dim).append(" integers):");
+
 		for (int i = 0; i < dim; i ++) {
-			s += "\n\t"+i+": ";
+			s.append("\n\t").append(i).append(": ");
 			for (int j = 0; j < dim; j++) {
-			s += adjMatrix[i][j] + ", ";
+			s.append(adjMatrix[i][j]).append(", ");
 			}
 		}
-		return s;
+		return s.toString();
+	}
+
+	/**
+	 * Two hops from a vertex is done by matrix multiplication
+	 * @return The result of adjMatrix squared
+	 */
+	private int[][] getTwoHopsMatrix() {
+		int length = adjMatrix.length;
+		int[][] result = new int[length][length];
+
+		for (int i = 0; i < getNumVertices(); i++) {
+			for (int j = 0; j < getNumVertices(); j++) {
+				result[i][j] = 0;
+				for (int k = 0; k < getNumVertices(); k++) {
+					result[i][j] += adjMatrix[i][k] * adjMatrix[k][j];
+				}
+			}
+		}
+		return result;
 	}
 
 }
