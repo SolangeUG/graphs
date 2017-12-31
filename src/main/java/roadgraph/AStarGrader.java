@@ -1,37 +1,36 @@
 package roadgraph;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.function.Consumer;
-
+import geography.GeographicPoint;
 import util.GraphLoader;
-import geography.*;
+
+import java.util.List;
 
 /**
- * @author UCSD MOOC Development Team
+ * A grader class for the AStar search algorithm implementation
  * Grader for Module 4, Part 2.
+ *
+ * @author UCSD MOOC Development Team
+ *
  */
 public class AStarGrader implements Runnable {
-    public String feedback;
+
+    private String feedback;
 
     public int correct;
 
     private static final int TESTS = 4;
 
-    /** Format readable feedback */
-    public static String printOutput(double score, String feedback) {
+    /**
+     * Format readable feedback
+     */
+    private static String printOutput(double score, String feedback) {
         return "Score: " + score + "\nFeedback: " + feedback;
     }
 
-    /** Format test number and description */
-    public static String appendFeedback(int num, String test) {
+    /**
+     * Format test number and description
+     */
+    private static String appendFeedback(int num, String test) {
         return "\n** Test #" + num + ": " + test + "...";
     }
 
@@ -52,18 +51,20 @@ public class AStarGrader implements Runnable {
             }
         }
         if (infinite) {
-            System.out.println(printOutput((double)grader.correct / TESTS, grader.feedback + "\nYour program entered an infinite loop."));
+            System.out.println(printOutput((double)grader.correct / TESTS,
+                                            grader.feedback + "\nYour program entered an infinite loop."));
         }
     }
 
-    /** Run a test case on an adjacency list and adjacency matrix.
+    /**
+     * Run a test case on an adjacency list and adjacency matrix.
      * @param i The graph number
      * @param file The file to read from
      * @param desc A description of the graph
      * @param start The point to start from
      * @param end The point to end at
      */
-    public void runTest(int i, String file, String desc, GeographicPoint start, GeographicPoint end) {
+    private void runTest(int i, String file, String desc, GeographicPoint start, GeographicPoint end) {
         MapGraph graph = new MapGraph();
 
         feedback += "\n\n" + desc;
@@ -74,14 +75,15 @@ public class AStarGrader implements Runnable {
         judge(i, graph, corr, start, end);
     }
 
-    /** Compare the user's result with the right answer.
+    /**
+     * Compare the user's result with the right answer.
      * @param i The graph number
      * @param result The user's graph
      * @param corr The correct answer
      * @param start The point to start from
      * @param end The point to end at
      */
-    public void judge(int i, MapGraph result, CorrectAnswer corr, GeographicPoint start, GeographicPoint end) {
+    private void judge(int i, MapGraph result, CorrectAnswer corr, GeographicPoint start, GeographicPoint end) {
     	// Correct if paths are same length and have the same elements
         feedback += appendFeedback(i, "Running A* from (" + start.getX() + ", " + start.getY() + ") to (" + end.getX() + ", " + end.getY() + ")");
         List<GeographicPoint> path = result.aStarSearch(start, end);
@@ -105,13 +107,16 @@ public class AStarGrader implements Runnable {
         }
     }
 
-    /** Print a search path in readable form */
-    public String printPath(List<GeographicPoint> path) {
-        String ret = "";
+    /**
+     * Print a search path in readable form
+     * @return a search path as a string
+     */
+    private String printPath(List<GeographicPoint> path) {
+        StringBuilder ret = new StringBuilder();
         for (GeographicPoint point : path) {
-            ret += point + "\n";
+            ret.append(point).append("\n");
         }
-        return ret;
+        return ret.toString();
     }
 
     /** Run the grader */
@@ -121,13 +126,18 @@ public class AStarGrader implements Runnable {
         correct = 0;
 
         try {
-            runTest(1, "map1.txt", "MAP: Straight line (-3 <- -2 <- -1 <- 0 -> 1 -> 2-> 3 ->...)", new GeographicPoint(0, 0), new GeographicPoint(6, 6));
+            runTest(1, "map1.txt", "MAP: Straight line (-3 <- -2 <- -1 <- 0 -> 1 -> 2-> 3 ->...)",
+                    new GeographicPoint(0, 0), new GeographicPoint(6, 6));
 
-            runTest(2, "map2.txt", "MAP: Example map from the writeup", new GeographicPoint(7, 3), new GeographicPoint(4, -1));
+            runTest(2, "map2.txt", "MAP: Example map from the writeup",
+                    new GeographicPoint(7, 3), new GeographicPoint(4, -1));
 
-            runTest(3, "map3.txt", "MAP: Right triangle (with a little detour)", new GeographicPoint(0, 0), new GeographicPoint(0, 4));
+            runTest(3, "map3.txt", "MAP: Right triangle (with a little detour)",
+                    new GeographicPoint(0, 0), new GeographicPoint(0, 4));
 
-            runTest(4, "ucsd.map", "UCSD MAP: Intersections around UCSD", new GeographicPoint(32.8709815, -117.2434254), new GeographicPoint(32.8742087, -117.2381344));
+            runTest(4, "ucsd.map", "UCSD MAP: Intersections around UCSD",
+                    new GeographicPoint(32.8709815, -117.2434254),
+                    new GeographicPoint(32.8742087, -117.2381344));
 
             if (correct == TESTS)
                 feedback = "All tests passed. Great job!" + feedback;
