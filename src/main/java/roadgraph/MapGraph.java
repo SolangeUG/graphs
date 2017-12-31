@@ -19,12 +19,16 @@ public class MapGraph {
 	// DONE: Add your member variables here in WEEK 3
 	private HashMap<GeographicPoint, MapVertex> mapVertices;
 
+	// Let's keep track of the explored nodes
+	private List<MapVertex> visitedNodes;
+
 	/** 
 	 * Create a new empty MapGraph 
 	 */
 	public MapGraph() {
 		// DONE: Implement in this constructor in WEEK 3
 		this.mapVertices = new HashMap<>();
+		this.visitedNodes = new ArrayList<>();
 	}
 	
 	/**
@@ -34,6 +38,14 @@ public class MapGraph {
 	public int getNumVertices() {
 		// DONE: Implement this method in WEEK 3
 		return mapVertices.size();
+	}
+
+	/**
+	 * Return the list of explored vertices in A* algorithm
+	 * @return the A* explored nodes
+	 */
+	public List<MapVertex> getVisitedNodes() {
+		return new ArrayList<>(visitedNodes);
 	}
 	
 	/**
@@ -180,12 +192,28 @@ public class MapGraph {
 	 */
 	public List<GeographicPoint> dijkstra(GeographicPoint start, 
 										  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched) {
-		// TODO: Implement this method in WEEK 4
+		// DONE: Implement this method in WEEK 4
 
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
-		
-		return null;
+
+		// Variable initialization
+		MapVertex sVertex = mapVertices.get(start);
+		MapVertex gVertex = mapVertices.get(goal);
+
+		if (start == null || goal == null || sVertex == null || gVertex == null) {
+			return null;
+		}
+
+		// Path search
+		HashMap<MapVertex, MapVertex> parentMap = new HashMap<>();
+		boolean found = dijkstraSearch(sVertex, gVertex, parentMap, nodeSearched);
+
+		if (! found) {
+			return null;
+		}
+
+		return constructPath(sVertex, gVertex, parentMap);
 	}
 
 	/** Find the path from start to goal using A-Star search
@@ -291,6 +319,67 @@ public class MapGraph {
 			}
 		}
 
+		return found;
+	}
+
+	/**
+	 * The actual Dijkstra search method
+	 * @param start The starting map vertex (intersection)
+	 * @param goal 	The goal map vertex (intersection)
+	 * @param parentMap	The map that links each vertex to the one
+	 * 					from which it was discovered
+	 * @param nodeSearched A hook for visualization
+	 * @return true if a path exists between the start and the goal vertices
+	 * 		   false otherwise
+	 */
+	private boolean dijkstraSearch(MapVertex start, MapVertex goal,
+								   HashMap<MapVertex, MapVertex> parentMap,
+								   Consumer<GeographicPoint> nodeSearched) {
+		boolean found = false;
+		visitedNodes.clear();
+
+		start.setDistanceToStart(0.0);
+		start.setDistanceToGoal(0.0);
+
+		HashSet<MapVertex> visited = new HashSet<>();
+		PriorityQueue<MapVertex> toExplore = new PriorityQueue<>();
+
+		toExplore.add(start);
+		while (! toExplore.isEmpty()) {
+			MapVertex current = toExplore.poll();
+			System.out.println(current);
+
+			// For visualization purposes.
+			nodeSearched.accept(current.getLocation());
+			visitedNodes.add(current);
+
+			if (! visited.contains(current)) {
+				visited.add(current);
+				if (current == goal) {
+					found = true;
+					break;
+				}
+
+				List<MapVertex> neighbors = getNeighbors(current);
+				for (MapVertex neighbor: neighbors) {
+					if (! visited.contains(neighbor)) {
+						// distance from neighbor to goal node --> h(n) which is always 0.0 in Dijkstra
+						neighbor.setDistanceToGoal(0.0);
+
+						// distance from neighbor to current node --> g(n)
+						double d = current.getDistanceToStart();
+						d += current.getLocation().distance(neighbor.getLocation());
+
+						// The priority function looks like: f(n) = g(n)
+						if (d < neighbor.getDistanceToStart()) {
+							neighbor.setDistanceToStart(d);
+							parentMap.put(neighbor, current);
+							toExplore.add(neighbor);
+						}
+					}
+				}
+			}
+		}
 		return found;
 	}
 
