@@ -131,7 +131,7 @@ public abstract class Graph {
 	 * @param v The starting vertex
 	 * @return A list of the vertices that can be reached in exactly two hops (by 
 	 * 			following two edges) from vertex v.
-	 * 			TODO: Implement in part 2 of week 2 for each subclass of Graph
+	 * DONE: Implement in part 2 of week 2 for each subclass of Graph
 	 */
 	public abstract List<Integer> getDistance2(int v); 
 
@@ -203,10 +203,7 @@ public abstract class Graph {
 	 * @return The String label of this vertex 
 	 */
 	public String getLabel(int v) {
-		if (vertexLabels.containsKey(v)) {
-			return vertexLabels.get(v);
-		}
-		else return null;
+		return vertexLabels.getOrDefault(v, null);
 	}
 
 	/**
