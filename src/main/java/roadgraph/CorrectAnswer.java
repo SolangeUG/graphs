@@ -11,7 +11,8 @@ public class CorrectAnswer {
     public int vertices;
     public int edges;
     public List<GeographicPoint> path;
-    public CorrectAnswer(String file, boolean hasEdges) {
+
+    CorrectAnswer(String file, boolean hasEdges) {
         try {
             Scanner s = new Scanner(new File(file));
             s.useLocale(Locale.ENGLISH);
@@ -21,7 +22,7 @@ public class CorrectAnswer {
             }
             path = null;
             if (s.hasNextDouble()) {
-                path = new ArrayList<GeographicPoint>();
+                path = new ArrayList<>();
             }
             while (s.hasNextDouble()) {
                 double x = s.nextDouble();
