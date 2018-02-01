@@ -1,7 +1,7 @@
 # Graphs
 
-[![License MIT](https://img.shields.io/badge/license-MIT%20License-green.svg)](https://github.com/SolangeUG/fundamentals/blob/master/LICENSE)
-[![Platform Java](https://img.shields.io/badge/platform-Java-blue.svg)](https://docs.oracle.com/en/java/)
+[![MIT License](https://img.shields.io/badge/license-MIT%20License-green.svg)](https://github.com/SolangeUG/fundamentals/blob/master/LICENSE)
+[![Java Platform](https://img.shields.io/badge/platform-Java-blue.svg)](https://docs.oracle.com/en/java/)
 
 This project is about building a mapping application with the ability to provide and visualize routes from one point to another in a map.
 Mapping applications such as Google Maps have changed the way millions of people live. 
