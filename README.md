@@ -21,6 +21,12 @@ and [A* search](https://en.wikipedia.org/wiki/A*_search_algorithm) algorithm
 - [Maven](https://maven.apache.org/what-is-maven.html)
 - Any IDE that supports JDK 8
 
+## Run Instructions
+
+- Download and unzip the project source code.
+- From a command line window, navigate to the (newly unzipped) project folder, and then run `mvn clean install` command.
+- To launch the application, run `java -jar target/graphs-1.0.jar`.
+- You're now ready to freely play around with different graph search algorithms, and visualize how they work in a route planning application.
 
 ## Resources
 
