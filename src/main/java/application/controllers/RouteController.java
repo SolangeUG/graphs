@@ -1,39 +1,27 @@
 package application.controllers;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import application.CLabel;
 import application.MapApp;
 import application.MarkerManager;
 import application.SelectManager;
-import application.CLabel;
-import application.services.GeneralService;
 import application.services.RouteService;
-import gmapsfx.javascript.object.GoogleMap;
-import gmapsfx.javascript.object.LatLong;
-import gmapsfx.javascript.object.LatLongBounds;
-import gmapsfx.javascript.object.MVCArray;
-import gmapsfx.shapes.Polyline;
-import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
-import javafx.util.StringConverter;
+
+import java.util.List;
 
 public class RouteController {
 	// Strings for slider labels
 	public static final int BFS = 3;
     public static final int A_STAR = 2;
     public static final int DIJ = 1;
+
+    @SuppressWarnings("unused")
 	public static final int DISABLE = 0;
+    @SuppressWarnings("unused")
 	public static final int START = 1;
+    @SuppressWarnings("unused")
 	public static final int DESTINATION = 2;
 
     private int selectedToggle = DIJ;
@@ -49,12 +37,11 @@ public class RouteController {
     private ToggleGroup group;
     private CLabel<geography.GeographicPoint> startLabel;
     private CLabel<geography.GeographicPoint> endLabel;
-    private CLabel<geography.GeographicPoint> pointLabel;
     private SelectManager selectManager;
     private MarkerManager markerManager;
 
 
-
+    @SuppressWarnings("unused")
 	public RouteController(RouteService routeService, Button displayButton, Button hideButton,
 						   Button resetButton, Button startButton, Button destinationButton,
 						   ToggleGroup group, List<RadioButton> searchOptions, Button visualizationButton,
@@ -73,7 +60,6 @@ public class RouteController {
         // maybe don't need references to labels;
 		this.startLabel = startLabel;
 		this.endLabel = endLabel;
-        this.pointLabel = pointLabel;
         this.selectManager = manager;
         this.markerManager = markerManager;
 
@@ -96,21 +82,14 @@ public class RouteController {
             }
 		});
 
-        hideButton.setOnAction(e -> {
-        	routeService.hideRoute();
-        });
+        hideButton.setOnAction(e -> routeService.hideRoute());
 
         //TODO -- implement
-        resetButton.setOnAction( e -> {
-
-            routeService.reset();
-        });
+        resetButton.setOnAction( e -> routeService.reset());
 	}
 
     private void setupVisualizationButton() {
-    	visualizationButton.setOnAction( e -> {
-    		markerManager.startVisualization();
-    	});
+    	visualizationButton.setOnAction( e -> markerManager.startVisualization());
     }
 
     private void setupRouteButtons() {
@@ -119,9 +98,7 @@ public class RouteController {
             selectManager.setStart();
     	});
 
-        destinationButton.setOnAction( e-> {
-            selectManager.setDestination();
-        });
+        destinationButton.setOnAction( e-> selectManager.setDestination());
     }
 
 
