@@ -30,6 +30,7 @@ import javafx.stage.StageStyle;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import application.controllers.FetchController;
 import application.controllers.RouteController;
@@ -156,6 +157,10 @@ implements MapComponentInitializedListener {
 
 		Scene scene = new Scene(bp);
 		scene.getStylesheets().add("html/routing.css");
+		String iconFile = Objects.requireNonNull(
+				getClass().getClassLoader().getResource("html/map.png")).toExternalForm();
+		primaryStage.getIcons().add(new Image(iconFile));
+		primaryStage.setTitle("Route Planning Application");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
