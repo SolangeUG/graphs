@@ -88,7 +88,7 @@ public class RouteService {
     public boolean isRouteDisplayed() {
     	return routeLine != null;
     }
-    
+
     @SuppressWarnings("all")
     public boolean displayRoute(geography.GeographicPoint start, geography.GeographicPoint end, int toggle) {
         if(routeLine == null) {
