@@ -1,10 +1,3 @@
-/** JavaFX application which interacts with the Google
- * Maps API to provide a mapping interface with which
- * to test and develop graph algorithms and data structures
- * 
- * @author UCSD MOOC development team
- *
- */
 package application;
 
 import javafx.application.Application;
@@ -49,13 +42,19 @@ import gmapsfx.javascript.object.LatLong;
 import gmapsfx.javascript.object.MapOptions;
 import gmapsfx.javascript.object.MapTypeIdEnum;
 
+/** JavaFX application which interacts with the Google
+ * Maps API to provide a mapping interface with which
+ * to test and develop graph algorithms and data structures
+ *
+ * @author UCSD MOOC development team
+ *
+ */
 public class MapApp extends Application
 implements MapComponentInitializedListener {
 
-	protected GoogleMapView mapComponent;
+	private GoogleMapView mapComponent;
 	protected GoogleMap map;
-	protected BorderPane bp;
-	protected Stage primaryStage;
+	private Stage primaryStage;
 
 	// CONSTANTS
 	private static final double MARGIN_VAL = 10;
@@ -69,11 +68,11 @@ implements MapComponentInitializedListener {
 	 * Application entry point
 	 */
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 
 		// MAIN CONTAINER
-		bp = new BorderPane();
+		BorderPane bp = new BorderPane();
 
 		// set up map
 		mapComponent = new GoogleMapView();
@@ -86,12 +85,10 @@ implements MapComponentInitializedListener {
 		Button fetchButton = new Button("Fetch Data");
 		Button displayButton = new Button("Show Intersections");
 		TextField tf = new TextField();
-		ComboBox<DataSet> cb = new ComboBox<DataSet>();
+		ComboBox<DataSet> cb = new ComboBox<>();
 
 		// set on mouse pressed, this fixes Windows 10 / Surface bug
-		cb.setOnMousePressed( e -> {
-			cb.requestFocus();
-		});
+		cb.setOnMousePressed( e -> cb.requestFocus());
 
 		HBox fetchControls = getBottomBox(tf, fetchButton);
 
@@ -105,8 +102,8 @@ implements MapComponentInitializedListener {
 		Button visualizationButton = new Button("Start Visualization");
 		Image sImage = new Image(MarkerManager.startURL);
 		Image dImage = new Image(MarkerManager.destinationURL);
-		CLabel<geography.GeographicPoint> startLabel = new CLabel<geography.GeographicPoint>("Empty.", new ImageView(sImage), null);
-		CLabel<geography.GeographicPoint> endLabel = new CLabel<geography.GeographicPoint>("Empty.", new ImageView(dImage), null);
+		CLabel<geography.GeographicPoint> startLabel = new CLabel<>("Empty.", new ImageView(sImage), null);
+		CLabel<geography.GeographicPoint> endLabel = new CLabel<>("Empty.", new ImageView(dImage), null);
 		//TODO -- hot fix
 		startLabel.setMinWidth(180);
 		endLabel.setMinWidth(180);
@@ -130,7 +127,7 @@ implements MapComponentInitializedListener {
 		markerManager.setVisButton(visualizationButton);
 
 		// create components for route tab
-		CLabel<geography.GeographicPoint> pointLabel = new CLabel<geography.GeographicPoint>("No point Selected.", null);
+		CLabel<geography.GeographicPoint> pointLabel = new CLabel<>("No point Selected.", null);
 		manager.setPointLabel(pointLabel);
 		manager.setStartLabel(startLabel);
 		manager.setDestinationLabel(endLabel);
@@ -205,12 +202,13 @@ implements MapComponentInitializedListener {
 		box.getChildren().add(fetchButton);
 		return box;
 	}
+
+
 	/**
 	 * Setup layout and controls for Fetch tab
-	 * @param fetchTab
-	 * @param fetchButton
-	 * @param displayButton
-	 * @param tf
+	 * @param displayButton : the display button
+	 * @param cb : the dataset combobex
+	 * @return fetch box as a VBox
 	 */
 	private VBox getFetchBox(Button displayButton, ComboBox<DataSet> cb) {
 		// add button to tab, rethink design and add V/HBox for content
@@ -234,12 +232,22 @@ implements MapComponentInitializedListener {
 		return v;
 	}
 
-	/**	
+	/**
 	 * Setup layout of route tab and controls
-	 *
-	 * @param routeTab
-	 * @param box
+	 * @param routeTab : route tab
+	 * @param fetchBox : fetch box
+	 * @param startLabel : start label
+	 * @param endLabel : end label
+	 * @param pointLabel : point label
+	 * @param showButton : show button
+	 * @param hideButton : hide button
+	 * @param resetButton : reset button
+	 * @param vButton : v button
+	 * @param startButton : start button
+	 * @param destButton : destination button
+	 * @param searchOptions : search options
 	 */
+	@SuppressWarnings("unused")
 	private void setupRouteTab(Tab routeTab, VBox fetchBox, Label startLabel, Label endLabel, Label pointLabel,
 			Button showButton, Button hideButton, Button resetButton, Button vButton, Button startButton,
 			Button destButton, List<RadioButton> searchOptions) {
@@ -340,14 +348,14 @@ implements MapComponentInitializedListener {
 		rbB.setToggleGroup(group);
 		rbD.setToggleGroup(group);
 		rbA.setToggleGroup(group);
-		return new LinkedList<RadioButton>(Arrays.asList(rbB, rbD, rbA));
+		return new LinkedList<>(Arrays.asList(rbB, rbD, rbA));
 	}
 
 
 	/*
 	 * METHODS FOR SHOWING DIALOGS/ALERTS
 	 */
-
+	@SuppressWarnings("unused")
 	public void showLoadStage(Stage loadStage, String text) {
 		loadStage.initModality(Modality.APPLICATION_MODAL);
 		loadStage.initOwner(primaryStage);
