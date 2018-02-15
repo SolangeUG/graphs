@@ -1,32 +1,21 @@
 package application.services;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.function.Consumer;
-
-
-import application.DataSet;
 import application.MapApp;
 import application.MarkerManager;
 import application.RouteVisualization;
 import application.controllers.RouteController;
-
-import java.util.Iterator;
-
-import geography.GeographicPoint;
-import geography.RoadSegment;
 import gmapsfx.GoogleMapView;
 import gmapsfx.javascript.object.GoogleMap;
 import gmapsfx.javascript.object.LatLong;
 import gmapsfx.javascript.object.LatLongBounds;
 import gmapsfx.javascript.object.MVCArray;
 import gmapsfx.shapes.Polyline;
-import javafx.scene.control.Button;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class RouteService {
 	private GoogleMap map;
@@ -34,6 +23,8 @@ public class RouteService {
     // static variable
     private MarkerManager markerManager;
     private Polyline routeLine;
+
+    @SuppressWarnings("unused")
     private RouteVisualization rv;
 
 	public RouteService(GoogleMapView mapComponent, MarkerManager manager) {
@@ -97,6 +88,8 @@ public class RouteService {
     public boolean isRouteDisplayed() {
     	return routeLine != null;
     }
+    
+    @SuppressWarnings("all")
     public boolean displayRoute(geography.GeographicPoint start, geography.GeographicPoint end, int toggle) {
         if(routeLine == null) {
         	if(markerManager.getVisualization() != null) {
@@ -109,12 +102,15 @@ public class RouteService {
             	Consumer<geography.GeographicPoint> nodeAccepter = markerManager.getVisualization()::acceptPoint;
             	List<geography.GeographicPoint> path = null;
             	if (toggle == RouteController.BFS) {
+            		markerManager.getDataSet().initializeGraph();
             		path = markerManager.getDataSet().getGraph().bfs(start, end, nodeAccepter);
             	}
             	else if (toggle == RouteController.DIJ) {
+					markerManager.getDataSet().initializeGraph();
             		path = markerManager.getDataSet().getGraph().dijkstra(start, end, nodeAccepter);
             	}
             	else if (toggle == RouteController.A_STAR) {
+					markerManager.getDataSet().initializeGraph();
             		path = markerManager.getDataSet().getGraph().aStarSearch(start, end, nodeAccepter);
             	}
 
@@ -149,12 +145,12 @@ public class RouteService {
      * @return list of LatLongs corresponding the path of route
      */
     private List<LatLong> constructMapPath(List<geography.GeographicPoint> path) {
-    	List<LatLong> retVal = new ArrayList<LatLong>();
-        List<geography.GeographicPoint> segmentList = null;
+    	List<LatLong> retVal = new ArrayList<>();
+        List<geography.GeographicPoint> segmentList;
     	geography.GeographicPoint curr;
     	geography.GeographicPoint next;
 
-    	geography.RoadSegment chosenSegment = null;;
+    	geography.RoadSegment chosenSegment = null;
 
         for(int i = 0; i < path.size() - 1; i++) {
             double minLength = Double.MAX_VALUE;
@@ -203,13 +199,6 @@ public class RouteService {
     		map.removeMapShape(routeLine);
         }
 	}
-
-//    private void setMarkerManager(MarkerManager manager) {
-//    	this.markerManager = manager;
-//    }
-
-
-
 
 }
 
