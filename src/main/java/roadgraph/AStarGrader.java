@@ -45,7 +45,8 @@ public class AStarGrader implements Runnable {
         while(thread.isAlive()) {
             // Stop after 10 seconds
             if (System.currentTimeMillis() > endTime) {
-                thread.stop();
+                // thread.stop();
+                thread.interrupt();
                 infinite = true;
                 break;
             }

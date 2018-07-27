@@ -47,7 +47,8 @@ public class SearchGrader implements Runnable {
         while(thread.isAlive()) {
             if (System.currentTimeMillis() > endTime) {
                 // Stop the thread if it takes too long
-                thread.stop();
+                // thread.stop();
+                thread.interrupt();
                 infinite = true;
                 break;
             }
