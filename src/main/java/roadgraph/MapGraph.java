@@ -519,6 +519,7 @@ public class MapGraph {
 		GeographicPoint testStart = new GeographicPoint(32.8674388, -117.2190213);
 		GeographicPoint testEnd = new GeographicPoint(32.8697828, -117.2244506);
 		List<GeographicPoint> testroute = testMap.dijkstra(testStart, testEnd);
+		System.out.println();
 
 		testMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/maps/utc.map", testMap);
