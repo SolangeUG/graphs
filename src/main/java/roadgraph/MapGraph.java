@@ -316,7 +316,7 @@ public class MapGraph {
 			MapVertex current = toExplore.poll();
 
 			// For visualization purposes.
-			nodeSearched.accept(current.getLocation());
+			nodeSearched.accept(Objects.requireNonNull(current).getLocation());
 
 			if (current == goal) {
 				found = true;
