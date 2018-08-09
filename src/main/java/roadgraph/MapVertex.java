@@ -33,7 +33,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * Return this vertex location
      * @return the location
      */
-    public GeographicPoint getLocation() {
+    GeographicPoint getLocation() {
         return location;
     }
 
@@ -49,7 +49,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * Return this node's distance to the start node
      * @return the distanceToSource
      */
-    public double getDistanceToStart() {
+    double getDistanceToStart() {
         return distanceToStart;
     }
 
@@ -57,7 +57,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * Update this node's distance to the start node
      * @param distance the new distance value to start node
      */
-    public void setDistanceToStart(double distance) {
+    void setDistanceToStart(double distance) {
         this.distanceToStart = distance;
     }
 
@@ -65,7 +65,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * Return this node's predicted distance to the start node
      * @return the predicted distance
      */
-    public double getDistanceToGoal() {
+    double getDistanceToGoal() {
         return distanceToGoal;
     }
 
@@ -73,7 +73,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * Update this node's predicted distance
      * @param distanceToGoal the new predicted distance value
      */
-    public void setDistanceToGoal(double distanceToGoal) {
+    void setDistanceToGoal(double distanceToGoal) {
         this.distanceToGoal = distanceToGoal;
     }
 
@@ -83,7 +83,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * @return	true if the edge was successfully added
      * 			false otherwise
      */
-    public boolean addEdge(MapEdge edge) {
+    boolean addEdge(MapEdge edge) {
         boolean result = false;
         if (! edges.contains(edge)) {
             result = edges.add(edge);
@@ -95,7 +95,7 @@ public class MapVertex implements Comparable<MapVertex> {
      * Return the number of this vertex list of edges
      * @return the number of edges
      */
-    public int getNumEdges() {
+    int getNumEdges() {
         return edges.size();
     }
 
