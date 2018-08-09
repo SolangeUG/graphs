@@ -366,7 +366,7 @@ public class MapGraph {
 			System.out.println(current);
 
 			// For visualization purposes.
-			nodeSearched.accept(current.getLocation());
+			nodeSearched.accept(Objects.requireNonNull(current).getLocation());
 			visitedNodes.add(current);
 
 			if (! visited.contains(current)) {
@@ -427,7 +427,7 @@ public class MapGraph {
 			System.out.println(current);
 
 			// For visualization purposes.
-			nodeSearched.accept(current.getLocation());
+			nodeSearched.accept(Objects.requireNonNull(current).getLocation());
 			visitedNodes.add(current);
 
 			if (! visited.contains(current)) {
